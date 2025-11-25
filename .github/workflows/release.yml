@@ -19,6 +19,8 @@ jobs:
     permissions:
       contents: write
     env:
+      GH_RELEASE_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
+    env:
       GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
       GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
     steps:
@@ -60,3 +62,4 @@ jobs:
           draft: false
           prerelease: false
           files: artifacts/release/WpfApp2.zip
+          token: ${{ secrets.GH_RELEASE_TOKEN }}
