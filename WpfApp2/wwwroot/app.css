@@ -281,6 +281,22 @@ button.ghost {
   flex-shrink: 0;
 }
 
+.emoji-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.emoji-badge picture,
+.emoji-badge img {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
 .dot.more {
   width: auto;
   height: auto;

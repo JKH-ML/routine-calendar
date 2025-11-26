@@ -25,6 +25,22 @@ const inputLocation = document.getElementById("inputLocation");
 const inputReminder = document.getElementById("inputReminder");
 const syncBtn = document.getElementById("syncBtn");
 
+// Routine emoji snippets (from assets/animated-emojis.txt)
+const routineEmojis = {
+  "✏️": `<picture>
+  <source srcset="https://fonts.gstatic.com/s/e/notoemoji/latest/270f_fe0f/512.webp" type="image/webp">
+  <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/270f_fe0f/512.gif" alt="✏️" width="16" height="16">
+</picture>`,
+  "🔥": `<picture>
+  <source srcset="https://fonts.gstatic.com/s/e/notoemoji/latest/1f525/512.webp" type="image/webp">
+  <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f525/512.gif" alt="🔥" width="16" height="16">
+</picture>`,
+  "🚀": `<picture>
+  <source srcset="https://fonts.gstatic.com/s/e/notoemoji/latest/1f680/512.webp" type="image/webp">
+  <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f680/512.gif" alt="🚀" width="16" height="16">
+</picture>`
+};
+
 let events = {};
 let modalState = { mode: "create", id: null, dateKey: null, endDateKey: null, allDay: false };
 
@@ -35,6 +51,16 @@ const state = {
   selected: null,
   selectedKey: null
 };
+
+function getRoutineEmoji(title) {
+  if (!title) return null;
+  const trimmed = title.trim();
+  const match = trimmed.match(/^#(\S+)/);
+  if (!match) return null;
+  const emoji = match[1];
+  if (!routineEmojis[emoji]) return null;
+  return { emoji, html: routineEmojis[emoji] };
+}
 
 function formatDateKey(date) {
   const y = date.getFullYear();
@@ -290,7 +316,13 @@ function renderCalendar() {
       let badges = "";
       if (hasEvents) {
         const dots = events[key]
-          .map(() => `<span class="dot"></span>`)
+          .map(evt => {
+            const routine = getRoutineEmoji(evt.title);
+            if (routine) {
+              return `<span class="emoji-badge" title="${routine.emoji} 루틴">${routine.html}</span>`;
+            }
+            return `<span class="dot"></span>`;
+          })
           .join("");
         badges = `<div class="badge">${dots}</div>`;
       }
