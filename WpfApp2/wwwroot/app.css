@@ -559,3 +559,30 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 .kpi-sub { color: var(--muted); font-size: 13px; }
+
+.ritual-card { width: min(360px, 100%); }
+.ritual-body { display: flex; flex-direction: column; gap: 14px; }
+.ritual-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 10px;
+}
+.ritual-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform var(--transition), border-color var(--transition), background var(--transition);
+}
+.ritual-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.06);
+}
+.icon-white { filter: brightness(0) invert(1); }

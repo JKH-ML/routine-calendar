@@ -24,6 +24,9 @@ const deleteText = document.getElementById("deleteText");
 const inputLocation = document.getElementById("inputLocation");
 const inputReminder = document.getElementById("inputReminder");
 const syncBtn = document.getElementById("syncBtn");
+const ritualBackdrop = document.getElementById("ritualBackdrop");
+const ritualClose = document.getElementById("ritualClose");
+const ritualButtons = () => Array.from(document.querySelectorAll(".ritual-btn"));
 
 // Ritual emoji snippets (from assets/animated-emojis.txt)
 const ritualEmojis = {
@@ -43,6 +46,7 @@ const ritualEmojis = {
 
 let events = {};
 let modalState = { mode: "create", id: null, dateKey: null, endDateKey: null, allDay: false };
+let ritualState = { dateKey: null };
 
 const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -348,6 +352,15 @@ function renderCalendar() {
       renderCalendar();
       renderEventsSidebar(dayEl.dataset.date, state.current);
     });
+    dayEl.addEventListener("dblclick", (e) => {
+      e.stopPropagation();
+      const key = dayEl.dataset.date;
+      state.selected = parseDateKey(key);
+      state.selectedKey = key;
+      renderCalendar();
+      renderEventsSidebar(key, state.current);
+      openRitualPicker(key);
+    });
   });
 
   const selectedKey = state.selected ? formatDateKey(state.selected) : todayKey;
@@ -393,6 +406,41 @@ function ensureRangeForView() {
   window.chrome.webview.postMessage({ kind: "ensureRange", from: key });
 }
 
+function openRitualPicker(dateKey) {
+  ritualState = { dateKey: dateKey || formatDateKey(new Date()) };
+  ritualBackdrop.classList.remove("hidden");
+}
+
+function closeRitualPicker() {
+  ritualBackdrop.classList.add("hidden");
+  ritualState = { dateKey: null };
+}
+
+function createRitualEvent(emoji) {
+  const dateKey = ritualState.dateKey || formatDateKey(new Date());
+  const title = `#${emoji} Ritual`;
+  const payload = { kind: "createEvent", title, time: "", endTime: "", dateKey, endDateKey: dateKey, allDay: true, location: "", reminderMinutes: null };
+  if (window.chrome?.webview?.postMessage) {
+    window.chrome.webview.postMessage(payload);
+  } else {
+    events[dateKey] = events[dateKey] || [];
+    events[dateKey].push({
+      id: `${dateKey}-${emoji}-${Date.now()}`,
+      title,
+      time: "",
+      endDateKey: dateKey,
+      allDay: true,
+      startDateKey: dateKey,
+      location: "",
+      reminderMinutes: null,
+      color: "#22d3ee"
+    });
+    renderCalendar();
+    renderEventsSidebar(dateKey, state.current);
+  }
+  closeRitualPicker();
+}
+
 // Receive events from the host (WPF) via WebView2 postMessage
 window.chrome?.webview?.addEventListener("message", (event) => {
   const data = event.data;
@@ -426,6 +474,14 @@ modalClose.addEventListener("click", closeModal);
 deleteClose.addEventListener("click", closeModal);
 deleteCancel.addEventListener("click", closeModal);
 inputAllDay.addEventListener("change", toggleTimeInputs);
+ritualClose.addEventListener("click", closeRitualPicker);
+ritualButtons().forEach(btn => {
+  btn.addEventListener("click", () => {
+    const emoji = btn.getAttribute("data-ritual");
+    if (!emoji) return;
+    createRitualEvent(emoji);
+  });
+});
 
 modalForm.addEventListener("submit", (e) => {
   e.preventDefault();

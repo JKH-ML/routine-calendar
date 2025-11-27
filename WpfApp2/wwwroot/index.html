@@ -124,6 +124,35 @@
     </div>
   </div>
 
+  <!-- Ritual picker -->
+  <div id="ritualBackdrop" class="modal-backdrop hidden">
+    <div class="modal-card ritual-card">
+      <div class="modal-header">
+        <div class="modal-title">완료한 일정을 선택하세요</div>
+        <button class="icon-btn" id="ritualClose" aria-label="Close">
+          <img src="./assets/x.png" class="icon" alt="Close" />
+        </button>
+      </div>
+      <div class="modal-body ritual-body">
+        <p class="kpi-sub">더블클릭한 날짜에 추가할 리추얼을 선택하세요.</p>
+        <div class="ritual-options">
+          <button class="ritual-btn" data-ritual="✏️">
+            <img src="./assets/pencil.png" class="icon icon-white" alt="pencil" />
+            <span>#✏️</span>
+          </button>
+          <button class="ritual-btn" data-ritual="🔥">
+            <img src="./assets/flame.png" class="icon icon-white" alt="flame" />
+            <span>#🔥</span>
+          </button>
+          <button class="ritual-btn" data-ritual="🚀">
+            <img src="./assets/rocket.png" class="icon icon-white" alt="rocket" />
+            <span>#🚀</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="./app.js"></script>
 </body>
 </html>
