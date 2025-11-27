@@ -352,11 +352,11 @@ button.ghost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .day-header {
@@ -364,6 +364,7 @@ button.ghost {
   align-items: center;
   gap: 6px;
   min-height: 18px;
+  margin-top: -4px;
 }
 
 .day.selected .day-number { background: rgba(124, 58, 237, 0.2); color: #e9d5ff; }
