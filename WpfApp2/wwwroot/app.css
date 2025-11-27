@@ -394,6 +394,10 @@ button.ghost {
   color: #9fb8ff;
   font-size: 11px;
 }
+.general-list.spacer {
+  visibility: hidden;
+  min-height: 14px;
+}
 
 .day.selected .day-number { background: rgba(124, 58, 237, 0.2); color: #e9d5ff; }
 .day.today .day-number { background: rgba(34, 211, 238, 0.15); color: #b5f3ff; }

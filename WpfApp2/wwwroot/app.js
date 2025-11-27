@@ -341,6 +341,9 @@ function renderCalendar() {
         }
         const firstTitle = generalEvents[0].title || "Event";
         generalList = `<div class="general-list" title="${firstTitle}">${firstTitle}</div>`;
+      } else {
+        // Preserve vertical rhythm when no general events
+        generalList = `<div class="general-list spacer"></div>`;
       }
 
       if (ritualEvents.length) {
