@@ -28,6 +28,8 @@ const ritualBackdrop = document.getElementById("ritualBackdrop");
 const ritualClose = document.getElementById("ritualClose");
 const ritualButtons = () => Array.from(document.querySelectorAll(".ritual-btn"));
 const ritualDateText = document.getElementById("ritualDateText");
+const dayContextMenu = document.getElementById("dayContextMenu");
+const contextItems = () => Array.from(document.querySelectorAll(".context-item"));
 
 // Ritual emoji snippets (from assets/animated-emojis.txt)
 const ritualEmojis = {
@@ -48,6 +50,7 @@ const ritualEmojis = {
 let events = {};
 let modalState = { mode: "create", id: null, dateKey: null, endDateKey: null, allDay: false };
 let ritualState = { dateKey: null };
+let contextMenuState = { dateKey: null };
 
 const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -390,6 +393,11 @@ function renderCalendar() {
       renderEventsSidebar(key, state.current);
       openRitualPicker(key);
     });
+    dayEl.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      const key = dayEl.dataset.date;
+      openDayContextMenu(key, e.clientX, e.clientY);
+    });
   });
 
   const selectedKey = state.selected ? formatDateKey(state.selected) : todayKey;
@@ -449,6 +457,44 @@ function openRitualPicker(dateKey) {
 function closeRitualPicker() {
   ritualBackdrop.classList.add("hidden");
   ritualState = { dateKey: null };
+}
+
+function openDayContextMenu(dateKey, x, y) {
+  contextMenuState = { dateKey };
+  if (!dayContextMenu) return;
+  dayContextMenu.style.left = `${x}px`;
+  dayContextMenu.style.top = `${y}px`;
+  dayContextMenu.classList.remove("hidden");
+}
+
+function closeDayContextMenu() {
+  contextMenuState = { dateKey: null };
+  if (dayContextMenu) dayContextMenu.classList.add("hidden");
+}
+
+function deleteEventsForDate(dateKey, mode) {
+  const list = events[dateKey] || [];
+  const toDelete = list.filter(evt => {
+    const isRitual = !!getRitualEmoji(evt.title);
+    if (mode === "general") return !isRitual;
+    if (mode === "ritual") return isRitual;
+    return true;
+  });
+
+  // Remove locally
+  events[dateKey] = list.filter(evt => !toDelete.includes(evt));
+
+  // Notify host
+  if (window.chrome?.webview?.postMessage) {
+    toDelete.forEach(evt => {
+      if (evt.id) {
+        window.chrome.webview.postMessage({ kind: "deleteEvent", id: evt.id });
+      }
+    });
+  }
+
+  renderCalendar();
+  renderEventsSidebar(dateKey, state.current);
 }
 
 function createRitualEvent(emoji) {
@@ -516,6 +562,26 @@ ritualButtons().forEach(btn => {
     if (!emoji) return;
     createRitualEvent(emoji);
   });
+});
+
+contextItems().forEach(btn => {
+  btn.addEventListener("click", () => {
+    const action = btn.getAttribute("data-action");
+    const dateKey = contextMenuState.dateKey;
+    if (!dateKey) return closeDayContextMenu();
+    if (action === "clear-general") deleteEventsForDate(dateKey, "general");
+    else if (action === "clear-ritual") deleteEventsForDate(dateKey, "ritual");
+    else if (action === "clear-all") deleteEventsForDate(dateKey, "all");
+    closeDayContextMenu();
+  });
+});
+
+document.addEventListener("click", (e) => {
+  if (!dayContextMenu || dayContextMenu.classList.contains("hidden")) return;
+  if (!dayContextMenu.contains(e.target)) closeDayContextMenu();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeDayContextMenu();
 });
 
 modalForm.addEventListener("submit", (e) => {
