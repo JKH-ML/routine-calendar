@@ -250,12 +250,12 @@ button.ghost {
 .day.selected { border-color: rgba(124, 58, 237, 0.6); background: linear-gradient(145deg, rgba(124, 58, 237, 0.16), rgba(124, 58, 237, 0.06)); }
 .day.first-of-month { /* reset to normal style (no special border) */ }
 
-.day.iridescent {
+.day.prism {
   border-color: transparent;
   background: rgba(255, 255, 255, 0.03);
 }
 
-.day.iridescent::before {
+.day.prism::before {
   content: "";
   position: absolute;
   inset: -3px;
@@ -282,7 +282,7 @@ button.ghost {
   animation: iridescent-shift 3.5s linear infinite;
 }
 
-.day.iridescent::after {
+.day.prism::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -296,6 +296,18 @@ button.ghost {
   0%   { filter: hue-rotate(0deg) saturate(1.15); }
   50%  { filter: hue-rotate(120deg) saturate(1.25); }
   100% { filter: hue-rotate(360deg) saturate(1.15); }
+}
+
+.day.silver {
+  border-color: rgba(224, 224, 224, 0.7);
+  box-shadow: 0 0 0 1px rgba(224, 224, 224, 0.45);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+}
+
+.day.gold {
+  border-color: rgba(255, 209, 128, 0.85);
+  box-shadow: 0 0 0 1px rgba(255, 209, 128, 0.5);
+  background: linear-gradient(135deg, rgba(255, 209, 128, 0.12), rgba(255, 209, 128, 0.04));
 }
 
 .day-number {

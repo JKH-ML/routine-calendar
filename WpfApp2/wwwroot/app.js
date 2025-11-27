@@ -324,7 +324,15 @@ function renderCalendar() {
           .map(evt => getRitualEmoji(evt.title)?.emoji)
           .filter(Boolean)
       );
+      const ritualCount = ritualSet.size;
       const hasRitualTrio = ["✏️", "🔥", "🚀"].every(r => ritualSet.has(r));
+      const ritualClass = hasRitualTrio
+        ? "prism"
+        : ritualCount === 2
+          ? "gold"
+          : ritualCount === 1
+            ? "silver"
+            : "";
       let badges = "";
       if (hasEvents) {
         const dots = dayEvents
@@ -339,7 +347,7 @@ function renderCalendar() {
         badges = `<div class="badge">${dots}</div>`;
       }
       return `
-        <div class="day ${cell.outside ? "outside" : ""} ${isToday ? "today" : ""} ${isSelected ? "selected" : ""} ${isFirst ? "first-of-month" : ""} ${hasRitualTrio ? "iridescent" : ""}" data-date="${key}">
+        <div class="day ${cell.outside ? "outside" : ""} ${isToday ? "today" : ""} ${isSelected ? "selected" : ""} ${isFirst ? "first-of-month" : ""} ${ritualClass}" data-date="${key}">
           <div class="day-number">${cell.date.getDate()}</div>
           ${badges}
         </div>`;
