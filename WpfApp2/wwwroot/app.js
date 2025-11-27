@@ -30,6 +30,8 @@ const ritualButtons = () => Array.from(document.querySelectorAll(".ritual-btn"))
 const ritualDateText = document.getElementById("ritualDateText");
 const dayContextMenu = document.getElementById("dayContextMenu");
 const contextItems = () => Array.from(document.querySelectorAll(".context-item"));
+const contextDateLabel = document.getElementById("contextDateLabel");
+const contextClose = document.getElementById("contextClose");
 
 // Ritual emoji snippets (from assets/animated-emojis.txt)
 const ritualEmojis = {
@@ -462,8 +464,7 @@ function closeRitualPicker() {
 function openDayContextMenu(dateKey, x, y) {
   contextMenuState = { dateKey };
   if (!dayContextMenu) return;
-  dayContextMenu.style.left = `${x}px`;
-  dayContextMenu.style.top = `${y}px`;
+  if (contextDateLabel) contextDateLabel.textContent = `${dateKey} 일정 정리`;
   dayContextMenu.classList.remove("hidden");
 }
 
@@ -583,6 +584,10 @@ document.addEventListener("click", (e) => {
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeDayContextMenu();
 });
+
+if (contextClose) {
+  contextClose.addEventListener("click", closeDayContextMenu);
+}
 
 modalForm.addEventListener("submit", (e) => {
   e.preventDefault();

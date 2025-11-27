@@ -695,28 +695,26 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 .icon-white { filter: brightness(0) invert(1); }
 
 .context-menu {
-  position: fixed;
-  z-index: 100;
-  background: #0f172a;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  box-shadow: var(--shadow);
-  padding: 6px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 180px;
+  /* repurposed as modal container; styling handled by modal-backdrop/card */
 }
 .context-menu.hidden { display: none; }
+.context-card { width: min(320px, 100%); }
+.context-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 .context-item {
-  border: none;
-  background: transparent;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
   color: var(--text);
   text-align: left;
-  padding: 8px 10px;
-  border-radius: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
 }
 .context-item:hover {
   background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
 }
