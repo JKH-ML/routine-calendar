@@ -250,6 +250,54 @@ button.ghost {
 .day.selected { border-color: rgba(124, 58, 237, 0.6); background: linear-gradient(145deg, rgba(124, 58, 237, 0.16), rgba(124, 58, 237, 0.06)); }
 .day.first-of-month { /* reset to normal style (no special border) */ }
 
+.day.iridescent {
+  border-color: transparent;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.day.iridescent::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  padding: 3px;
+  background: conic-gradient(
+    from 120deg,
+    #b7a8f5,
+    #8ef5f1,
+    #f3c2ff,
+    #fff1b8,
+    #f7b6d9,
+    #8ae8ff,
+    #e2d9ff,
+    #b7a8f5
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  filter: saturate(1.15);
+  animation: iridescent-shift 3.5s linear infinite;
+}
+
+.day.iridescent::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 20% 20%, rgba(124, 58, 237, 0.08), transparent 45%),
+              radial-gradient(circle at 80% 70%, rgba(34, 211, 238, 0.08), transparent 40%);
+  pointer-events: none;
+}
+
+@keyframes iridescent-shift {
+  0%   { filter: hue-rotate(0deg) saturate(1.15); }
+  50%  { filter: hue-rotate(120deg) saturate(1.25); }
+  100% { filter: hue-rotate(360deg) saturate(1.15); }
+}
+
 .day-number {
   display: inline-flex;
   align-items: center;

@@ -309,13 +309,20 @@ function renderCalendar() {
   dayGrid.innerHTML = cells
     .map(cell => {
       const key = formatDateKey(cell.date);
+      const dayEvents = events[key] || [];
       const isToday = key === todayKey;
       const isSelected = state.selected && formatDateKey(state.selected) === key;
-      const hasEvents = events[key];
+      const hasEvents = dayEvents.length > 0;
       const isFirst = cell.date.getDate() === 1;
+      const routineSet = new Set(
+        dayEvents
+          .map(evt => getRoutineEmoji(evt.title)?.emoji)
+          .filter(Boolean)
+      );
+      const hasRoutineTrio = ["✏️", "🔥", "🚀"].every(r => routineSet.has(r));
       let badges = "";
       if (hasEvents) {
-        const dots = events[key]
+        const dots = dayEvents
           .map(evt => {
             const routine = getRoutineEmoji(evt.title);
             if (routine) {
@@ -327,7 +334,7 @@ function renderCalendar() {
         badges = `<div class="badge">${dots}</div>`;
       }
       return `
-        <div class="day ${cell.outside ? "outside" : ""} ${isToday ? "today" : ""} ${isSelected ? "selected" : ""} ${isFirst ? "first-of-month" : ""}" data-date="${key}">
+        <div class="day ${cell.outside ? "outside" : ""} ${isToday ? "today" : ""} ${isSelected ? "selected" : ""} ${isFirst ? "first-of-month" : ""} ${hasRoutineTrio ? "iridescent" : ""}" data-date="${key}">
           <div class="day-number">${cell.date.getDate()}</div>
           ${badges}
         </div>`;
