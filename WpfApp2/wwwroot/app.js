@@ -332,14 +332,15 @@ function renderCalendar() {
             ? "silver"
             : "";
       let badges = "";
-      let generalLabel = "";
+      let generalLabelTop = "";
+      let generalList = "";
       if (generalEvents.length) {
         const count = generalEvents.length;
-        const labelText = count === 1
-          ? (generalEvents[0].title || "Event")
-          : `+${count}`;
-        const titleText = count === 1 ? labelText : `${count} events`;
-        generalLabel = `<span class="general-label" title="${titleText}">${labelText}</span>`;
+        if (count > 1) {
+          generalLabelTop = `<span class="general-count" title="${count} events">+${count}</span>`;
+        }
+        const firstTitle = generalEvents[0].title || "Event";
+        generalList = `<div class="general-list" title="${firstTitle}">${firstTitle}</div>`;
       }
 
       if (ritualEvents.length) {
@@ -358,8 +359,9 @@ function renderCalendar() {
         <div class="day ${cell.outside ? "outside" : ""} ${isToday ? "today" : ""} ${isSelected ? "selected" : ""} ${isFirst ? "first-of-month" : ""} ${ritualClass}" data-date="${key}">
           <div class="day-header">
             <div class="day-number">${cell.date.getDate()}</div>
-            ${generalLabel}
+            ${generalLabelTop}
           </div>
+          ${generalList}
           ${badges}
         </div>`;
     })

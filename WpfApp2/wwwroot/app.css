@@ -370,6 +370,31 @@ button.ghost {
   margin-left: -2px;
 }
 
+.general-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #bfdbfe;
+  background: rgba(59, 130, 246, 0.16);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+.general-list {
+  margin: 2px 0 4px;
+  padding: 0 2px;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+  color: #9fb8ff;
+  font-size: 11px;
+}
+
 .day.selected .day-number { background: rgba(124, 58, 237, 0.2); color: #e9d5ff; }
 .day.today .day-number { background: rgba(34, 211, 238, 0.15); color: #b5f3ff; }
 
