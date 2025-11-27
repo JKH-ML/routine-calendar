@@ -25,8 +25,8 @@ const inputLocation = document.getElementById("inputLocation");
 const inputReminder = document.getElementById("inputReminder");
 const syncBtn = document.getElementById("syncBtn");
 
-// Routine emoji snippets (from assets/animated-emojis.txt)
-const routineEmojis = {
+// Ritual emoji snippets (from assets/animated-emojis.txt)
+const ritualEmojis = {
   "✏️": `<picture>
   <source srcset="https://fonts.gstatic.com/s/e/notoemoji/latest/270f_fe0f/512.webp" type="image/webp">
   <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/270f_fe0f/512.gif" alt="✏️" width="16" height="16">
@@ -52,14 +52,14 @@ const state = {
   selectedKey: null
 };
 
-function getRoutineEmoji(title) {
+function getRitualEmoji(title) {
   if (!title) return null;
   const trimmed = title.trim();
   const match = trimmed.match(/^#(\S+)/);
   if (!match) return null;
   const emoji = match[1];
-  if (!routineEmojis[emoji]) return null;
-  return { emoji, html: routineEmojis[emoji] };
+  if (!ritualEmojis[emoji]) return null;
+  return { emoji, html: ritualEmojis[emoji] };
 }
 
 function formatDateKey(date) {
@@ -314,19 +314,19 @@ function renderCalendar() {
       const isSelected = state.selected && formatDateKey(state.selected) === key;
       const hasEvents = dayEvents.length > 0;
       const isFirst = cell.date.getDate() === 1;
-      const routineSet = new Set(
+      const ritualSet = new Set(
         dayEvents
-          .map(evt => getRoutineEmoji(evt.title)?.emoji)
+          .map(evt => getRitualEmoji(evt.title)?.emoji)
           .filter(Boolean)
       );
-      const hasRoutineTrio = ["✏️", "🔥", "🚀"].every(r => routineSet.has(r));
+      const hasRitualTrio = ["✏️", "🔥", "🚀"].every(r => ritualSet.has(r));
       let badges = "";
       if (hasEvents) {
         const dots = dayEvents
           .map(evt => {
-            const routine = getRoutineEmoji(evt.title);
-            if (routine) {
-              return `<span class="emoji-badge" title="${routine.emoji} 루틴">${routine.html}</span>`;
+            const ritual = getRitualEmoji(evt.title);
+            if (ritual) {
+              return `<span class="emoji-badge" title="${ritual.emoji} 리추얼">${ritual.html}</span>`;
             }
             return `<span class="dot"></span>`;
           })
@@ -334,7 +334,7 @@ function renderCalendar() {
         badges = `<div class="badge">${dots}</div>`;
       }
       return `
-        <div class="day ${cell.outside ? "outside" : ""} ${isToday ? "today" : ""} ${isSelected ? "selected" : ""} ${isFirst ? "first-of-month" : ""} ${hasRoutineTrio ? "iridescent" : ""}" data-date="${key}">
+        <div class="day ${cell.outside ? "outside" : ""} ${isToday ? "today" : ""} ${isSelected ? "selected" : ""} ${isFirst ? "first-of-month" : ""} ${hasRitualTrio ? "iridescent" : ""}" data-date="${key}">
           <div class="day-number">${cell.date.getDate()}</div>
           ${badges}
         </div>`;
