@@ -332,13 +332,14 @@ function renderCalendar() {
             ? "silver"
             : "";
       let badges = "";
-      let generalDots = "";
+      let generalLabel = "";
       if (generalEvents.length) {
         const count = generalEvents.length;
-        const dots = count === 1
-          ? `<span class="dot-general"></span>`
-          : `<span class="dot-general"></span><span class="dot-general plus" title="+${count - 1}"></span>`;
-        generalDots = `<div class="general-dots">${dots}</div>`;
+        const labelText = count === 1
+          ? (generalEvents[0].title || "Event")
+          : `+${count}`;
+        const titleText = count === 1 ? labelText : `${count} events`;
+        generalLabel = `<span class="general-label" title="${titleText}">${labelText}</span>`;
       }
 
       if (ritualEvents.length) {
@@ -357,7 +358,7 @@ function renderCalendar() {
         <div class="day ${cell.outside ? "outside" : ""} ${isToday ? "today" : ""} ${isSelected ? "selected" : ""} ${isFirst ? "first-of-month" : ""} ${ritualClass}" data-date="${key}">
           <div class="day-header">
             <div class="day-number">${cell.date.getDate()}</div>
-            ${generalDots}
+            ${generalLabel}
           </div>
           ${badges}
         </div>`;

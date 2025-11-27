@@ -363,6 +363,7 @@ button.ghost {
   display: flex;
   align-items: center;
   gap: 6px;
+  min-height: 18px;
 }
 
 .day.selected .day-number { background: rgba(124, 58, 237, 0.2); color: #e9d5ff; }
@@ -384,39 +385,19 @@ button.ghost {
   background: #22d3ee;
   flex-shrink: 0;
 }
-.general-dots { display: inline-flex; align-items: center; gap: 4px; }
-.dot-general {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #3b82f6;
-  flex-shrink: 0;
-}
-.dot-general.plus {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: rgba(59, 130, 246, 0.18);
-  position: relative;
-}
-.dot-general.plus::before,
-.dot-general.plus::after {
-  content: "";
-  position: absolute;
-  background: #3b82f6;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-.dot-general.plus::before {
-  width: 8px;
-  height: 2px;
-  border-radius: 2px;
-}
-.dot-general.plus::after {
-  width: 2px;
-  height: 8px;
-  border-radius: 2px;
+.general-label {
+  display: inline-flex;
+  align-items: center;
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+  font-size: 12px;
+  color: #93c5fd;
+  padding: 2px 6px;
+  border-radius: 8px;
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.22);
 }
 
 .emoji-badge {
