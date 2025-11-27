@@ -425,7 +425,7 @@ function closeRitualPicker() {
 
 function createRitualEvent(emoji) {
   const dateKey = ritualState.dateKey || formatDateKey(new Date());
-  const title = `#${emoji} Ritual`;
+  const title = `#${emoji}`;
   const payload = { kind: "createEvent", title, time: "", endTime: "", dateKey, endDateKey: dateKey, allDay: true, location: "", reminderMinutes: null };
   if (window.chrome?.webview?.postMessage) {
     window.chrome.webview.postMessage(payload);
