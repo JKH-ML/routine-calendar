@@ -410,6 +410,10 @@ button.ghost {
   min-height: 8px;
   max-width: 100%;
 }
+.badge.spacer {
+  min-height: 18px;
+  visibility: hidden;
+}
 
 .dot {
   width: 8px;

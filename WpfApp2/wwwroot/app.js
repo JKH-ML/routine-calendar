@@ -357,6 +357,9 @@ function renderCalendar() {
           })
           .join("");
         badges = `<div class="badge">${dots}</div>`;
+      } else {
+        // Preserve height when no rituals
+        badges = `<div class="badge spacer"></div>`;
       }
       return `
         <div class="day ${cell.outside ? "outside" : ""} ${isToday ? "today" : ""} ${isSelected ? "selected" : ""} ${isFirst ? "first-of-month" : ""} ${ritualClass}" data-date="${key}">
