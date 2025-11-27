@@ -410,7 +410,10 @@ function ensureRangeForView() {
 function openRitualPicker(dateKey) {
   ritualState = { dateKey: dateKey || formatDateKey(new Date()) };
   if (ritualDateText) {
-    ritualDateText.textContent = `${ritualState.dateKey} 에 리추얼 일정을 추가합니다.`;
+    const parsed = parseDateKey(ritualState.dateKey);
+    const weekdayNamesLocal = ["일", "월", "화", "수", "목", "금", "토"];
+    const weekday = weekdayNamesLocal[parsed.getDay()];
+    ritualDateText.textContent = `${ritualState.dateKey}(${weekday}) 에 리추얼 일정을 추가합니다.`;
   }
   ritualBackdrop.classList.remove("hidden");
 }
